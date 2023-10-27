@@ -3,12 +3,9 @@ package dev.ikecruz.scraper;
 import java.io.IOException;
 import java.util.HashMap;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import dev.ikecruz.util.RandomUserAgent;
 
 public class JohnLewisScraper extends Scraper {
 
