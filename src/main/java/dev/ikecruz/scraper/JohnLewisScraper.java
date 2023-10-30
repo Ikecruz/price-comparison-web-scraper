@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import dev.ikecruz.entities.ComparisonEntity;
+import dev.ikecruz.entities.PhoneEntity;
 
 public class JohnLewisScraper extends Scraper {
     private static final String PAGE_URL = "https://www.johnlewis.com/browse/electricals/mobile-phones-accessories/view-all-mobile-phones/samsung/_/N-a8vZ1z13z13#intcmp=ic_20230331_mobileareapagecarouselsamsung_cp_ele_a_othr_";
@@ -57,13 +58,13 @@ public class JohnLewisScraper extends Scraper {
                 "//span[@class='ProductPrice_ProductPrice__item__f6Pv6']"
             )).getAttribute("innerText");
 
-            int phoneId = this.getOrCreatePhoneIdIfNotExist(name, storage, cellullar, imageURL);
+            PhoneEntity phone = this.getOrCreatePhoneIfNotExist(name, storage, cellullar, imageURL);
 
             ComparisonEntity comparison = new ComparisonEntity();
-            comparison.setPhoneId(phoneId);
+            comparison.setPhoneEntity(phone);
             comparison.setName("John Lewis");
             comparison.setPrice(
-                Float.parseFloat(price.substring(1).replaceAll("/[,]\\w+/g", ""))
+                Float.parseFloat(price.substring(1).replaceAll("[^0-9.]+", ""))
             );
             comparison.setUrl(phoneUrl);
 

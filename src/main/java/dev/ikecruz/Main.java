@@ -2,7 +2,6 @@ package dev.ikecruz;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
 
 import dev.ikecruz.config.AppConfig;
 import dev.ikecruz.thread.ThreadStarter;
