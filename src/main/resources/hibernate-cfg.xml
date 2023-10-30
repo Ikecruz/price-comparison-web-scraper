@@ -9,7 +9,7 @@
     <property name="hibernate.connection.password">mmesomma7</property>
     <property name="hibernate.connection.pool_size">5</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.show_sql">false</property>
     <property name="hibernate.format_sql">true</property>
 
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
