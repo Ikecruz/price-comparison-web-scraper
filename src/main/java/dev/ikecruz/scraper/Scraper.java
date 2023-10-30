@@ -55,7 +55,7 @@ public abstract class Scraper {
 
         @SuppressWarnings("unchecked")
         List<ComparisonEntity> comparisons = session.createQuery(
-            "from ComparisonEntity where name='" + comparison.getName() +"' and phone_id=" + comparison.getPhoneId()
+            "from ComparisonEntity where name='" + comparison.getName() +"' and phone_id=" + comparison.getPhoneEntity().getId()
         ).getResultList();
 
         if (comparisons.size() > 0) {
@@ -69,22 +69,7 @@ public abstract class Scraper {
         session.close();
     }
 
-    /**
-     * The method retrieves or creates a phone ID based on the provided name, storage, and cellular
-     * information.
-     * 
-     * @param name The name of the phone.
-     * @param storage The "storage" parameter refers to the storage capacity of the phone, such as
-     * 16GB, 32GB, 64GB, etc.
-     * @param cellular The "cellular" parameter refers to the type of cellular network technology
-     * supported by the phone, such as 2G, 3G, 4G, or 5G.
-     * @param imageUrl The imageUrl parameter is a string that represents the URL of an image for the
-     * phone.
-     * @return The method is returning an integer value, which is either the id of the newly created
-     * phone entity if it did not exist in the database, or the id of the existing phone entity if it
-     * already existed in the database.
-     */
-    public int getOrCreatePhoneIdIfNotExist (
+    public PhoneEntity getOrCreatePhoneIfNotExist (
         String name,
         String storage,
         String cellular,
@@ -99,29 +84,31 @@ public abstract class Scraper {
         ).getResultList();
 
         if (phones.size() == 0) {
-            int modelId = this.getOrCreateModelIdIfNotExist(name, session);
+            ModelEntity model = this.getOrCreateModelIfNotExist(name, session);
 
             PhoneEntity phone = new PhoneEntity();
-            phone.setModelId(modelId);
+            phone.setModelEntity(model);
             phone.setImageUrl(imageUrl);
             phone.setName(name);
             phone.setStorage(storage);
             phone.setCellular(cellular);
 
             int id = (Integer) session.save(phone);
+            phone.setId(id);
+
             session.getTransaction().commit();
             session.close();
 
-            return id;
+            return phone;
             
         }
 
         session.close();
 
-        return phones.get(0).getId();
+        return phones.get(0);
     }
 
-    public int getOrCreateModelIdIfNotExist (String modelName, Session session) {
+    public ModelEntity getOrCreateModelIfNotExist (String modelName, Session session) {
         @SuppressWarnings("unchecked")
         List<ModelEntity> models = session.createQuery("from ModelEntity where name= '" + modelName + "'").getResultList();
 
@@ -131,11 +118,12 @@ public abstract class Scraper {
             model.setName(modelName);
             
             int id = (Integer) session.save(model);
+            model.setId(id);
 
-            return id;
+            return model;
         }
 
-        return models.get(0).getId();
+        return models.get(0);
     }
 
     public abstract void scrape() throws InterruptedException, IOException;
