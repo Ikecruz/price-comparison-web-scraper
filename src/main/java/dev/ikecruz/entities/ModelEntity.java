@@ -21,6 +21,8 @@ public class ModelEntity {
     @Column(name = "brand")
     private String brand;
 
+    public ModelEntity() {}
+
     public int getId() {
         return id;
     }

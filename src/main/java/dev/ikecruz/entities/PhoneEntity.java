@@ -2,9 +2,12 @@ package dev.ikecruz.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity(name="PhoneEntity")
@@ -15,8 +18,9 @@ public class PhoneEntity {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "model_id")
-    private int modelId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "model_id")
+    private ModelEntity modelEntity;
 
     @Column(name = "name")
     private String name;
@@ -40,12 +44,12 @@ public class PhoneEntity {
         this.id = id;
     }
 
-    public int getModelId() {
-        return modelId;
+    public ModelEntity getModelEntity() {
+        return modelEntity;
     }
 
-    public void setModelId(int modelId) {
-        this.modelId = modelId;
+    public void setModelEntity(ModelEntity modelEntity) {
+        this.modelEntity = modelEntity;
     }
 
     public String getName() {
@@ -79,5 +83,5 @@ public class PhoneEntity {
     public void setCellular(String cellular) {
         this.cellular = cellular;
     }
-
+    
 }

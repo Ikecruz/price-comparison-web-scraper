@@ -2,9 +2,12 @@ package dev.ikecruz.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity(name="ComparisonEntity")
@@ -15,8 +18,9 @@ public class ComparisonEntity {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "phone_id")
-    private int phoneId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "phone_id")
+    private PhoneEntity phoneEntity;
 
     @Column(name = "name")
     private String name;
@@ -27,6 +31,8 @@ public class ComparisonEntity {
     @Column(name = "price")
     private float price;
 
+    public ComparisonEntity() {}
+
     public int getId() {
         return id;
     }
@@ -35,12 +41,12 @@ public class ComparisonEntity {
         this.id = id;
     }
 
-    public int getPhoneId() {
-        return phoneId;
+    public PhoneEntity getPhoneEntity() {
+        return phoneEntity;
     }
 
-    public void setPhoneId(int phoneId) {
-        this.phoneId = phoneId;
+    public void setPhoneEntity(PhoneEntity phoneEntity) {
+        this.phoneEntity = phoneEntity;
     }
 
     public String getName() {
