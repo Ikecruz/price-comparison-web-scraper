@@ -70,6 +70,8 @@ public class JohnLewisScraper extends Scraper {
 
             this.createAndSaveComparisonIfNotExist(comparison);
 
+            Thread.sleep(5000);
+
         }
 
         driver.close();
