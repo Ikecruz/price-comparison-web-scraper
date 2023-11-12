@@ -46,13 +46,23 @@ public class AmazonScraper extends Scraper {
                 "//img[@id='landingImage']"
             ).getAttribute("src"));
 
-            String name = (driver.findElementByXPath(
+            String nameFromMainSite = (driver.findElementByXPath(
                 "//tr[contains(@class, 'po-model_name')]//descendant::span[2]"
             ).getAttribute("innerText"));
+            
+            nameFromMainSite = (nameFromMainSite.split(" ")[2]).replaceFirst(".$","");
 
-            if (!name.split(" ")[0].equals("Samsung")) {
-                name = "Samsung " + name;
-            }
+            driver.navigate().to("https://www.gsmarena.com/res.php3?sSearch="+nameFromMainSite);
+
+            WebElement phoneElementToGetRightNameFrom = driver.findElementByXPath(
+                "//div[@class='makers']//descendant::a[1]"
+            );
+
+            phoneElementToGetRightNameFrom.click();
+
+            String phoneCorrectName = (wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//h1[contains(@data-spec, 'modelname')]")
+            ))).getAttribute("innerText");
 
             String storage = (driver.findElementByXPath(
                 "//div[@id='variation_size_name']//descendant::span[@class='selection']"
@@ -72,8 +82,7 @@ public class AmazonScraper extends Scraper {
                 "//span[contains(@class, 'a-price-whole')]"
             )).getAttribute("innerText");
 
-            
-            PhoneEntity phone = this.getOrCreatePhoneIfNotExist(name, storage, cellular, imageUrl);
+            PhoneEntity phone = this.getOrCreatePhoneIfNotExist(phoneCorrectName, storage, cellular, imageUrl);
 
             ComparisonEntity comparisonEntity = new ComparisonEntity();
             comparisonEntity.setPhoneEntity(phone);

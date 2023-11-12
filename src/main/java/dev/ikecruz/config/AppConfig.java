@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.tinylog.Logger;
 
 import dev.ikecruz.scraper.AmazonScraper;
+import dev.ikecruz.scraper.ArgosScraper;
 import dev.ikecruz.scraper.JohnLewisScraper;
 import dev.ikecruz.scraper.Scraper;
 import dev.ikecruz.thread.ThreadStarter;
@@ -25,8 +26,9 @@ public class AppConfig {
     public ThreadStarter thread() {
         ThreadStarter tmpThread = new ThreadStarter();
         List<Scraper> scrapers = new ArrayList<Scraper>();
-        scrapers.add(johnLewisScraper());
-        scrapers.add(amazonScraper());
+        // scrapers.add(johnLewisScraper());
+        // scrapers.add(amazonScraper());
+        scrapers.add(argosScraper());
         tmpThread.setScrapers(scrapers);
         return tmpThread;
     }
@@ -43,6 +45,13 @@ public class AppConfig {
         AmazonScraper tmpAmazonScraper = new AmazonScraper();
         tmpAmazonScraper.setSessionFactory(getSessionFactory());
         return tmpAmazonScraper;
+    }
+
+    @Bean
+    public ArgosScraper argosScraper() {
+        ArgosScraper tmpArgosScraper = new ArgosScraper();
+        tmpArgosScraper.setSessionFactory(getSessionFactory());
+        return tmpArgosScraper;
     }
 
     @Bean

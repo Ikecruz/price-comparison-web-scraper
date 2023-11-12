@@ -35,7 +35,7 @@ public abstract class Scraper {
      */
     public FirefoxDriver getFireFoxDriver(){
         FirefoxOptions options = new FirefoxOptions();
-        options.setHeadless(true);
+        options.setHeadless(false);
         System.setProperty("webdriver.gecko.driver", "/usr/local/bin/geckodriver");
         System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "null");
 
@@ -109,7 +109,7 @@ public abstract class Scraper {
         return phones.get(0);
     }
 
-    public ModelEntity getOrCreateModelIfNotExist (String modelName, Session session) {
+    private ModelEntity getOrCreateModelIfNotExist (String modelName, Session session) {
         @SuppressWarnings("unchecked")
         List<ModelEntity> models = session.createQuery("from ModelEntity where name= '" + modelName + "'").getResultList();
 
