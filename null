@@ -1,4 +1,42 @@
-1699270206907	geckodriver	INFO	Listening on 127.0.0.1:17246
-1699270206930	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr/lib/firefox/firefox" "--marionette" "-no-remote" "-profile" "/tmp/rust_mozprofileXRItOW"
+1700918447556	geckodriver	INFO	Listening on 127.0.0.1:11156
+1700918447560	mozrunner::runner	INFO	Running command: "/opt/firefox/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileOnFmOU"
 console.warn: services.settings: Ignoring preference override of remote settings server
 console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+[GFX1-]: vaapitest: ERROR
+[GFX1-]: vaapitest: VA-API test failed: failed to initialise VAAPI connection.
+
+1700918448136	Marionette	INFO	Marionette enabled
+console.error: "Warning: unrecognized command line flag" "-foreground"
+1700918448302	Marionette	INFO	Listening on port 43203
+1700918448475	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+JavaScript warning: https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1, line 135: Script terminated by timeout at:
+lb@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:135:124
+nb@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:135:317
+B@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:136:158
+B@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:136:147
+@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:676:201
+yf@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:186:199
+zf@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:187:279
+Af@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:186:424
+e@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:460:64
+Wa/<@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:132:130
+Mv/<@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:462:408
+Kv/<@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:462:148
+Hw@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:469:740
+Qw@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:474:194
+Mx@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:488:272
+Px@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:493:57
+Tx/b.push@https://www.googletagmanager.com/gtm.js?auth=C_TrFGuRxqPLdA0SxZJweg&id=GTM-N6P9JCF&preview=env-1:497:315
+Tx/b.push@https://www.googletagmanager.com/gtag/js?id=G-123456789&l=dataLayer&cx=c:355:165
+Tx/b.push@https://www.googletagmanager.com/gtm.js?id=GTM-PB8NVS2&l=dataLayer:444:165
+Tx/b.push@https://www.googletagmanager.com/gtag/js?id=G-W101YGMKND&l=dataLayer&cx=c:469:165
+fe@https://d1eh9yux7w8iql.cloudfront.net/front/public/statics/pastrami/fc931b6798347a02e58986757324f4dcb3ab3347/_nuxt/7740850.js:5:100332
+gr@https://d1eh9yux7w8iql.cloudfront.net/front/public/statics/pastrami/fc931b6798347a02e58986757324f4dcb3ab3347/_nuxt/7740850.js:5:104748
+de/</<@https://d1eh9yux7w8iql.cloudfront.net/front/public/statics/pastrami/fc931b6798347a02e58986757324f4dcb3ab3347/_nuxt/7740850.js:5:108005
+de/<@https://d1eh9yux7w8iql.cloudfront.net/front/public/statics/pastrami/fc931b6798347a02e58986757324f4dcb3ab3347/_nuxt/7740850.js:5:107815
+1324/watchAdvertInViewport/this.unobserve<@https://d1eh9yux7w8iql.cloudfront.net/front/public/statics/pastrami/fc931b6798347a02e58986757324f4dcb3ab3347/_nuxt/9043754.js:143:5886
+692/v/h<@https://d1eh9yux7w8iql.cloudfront.net/front/public/statics/pastrami/fc931b6798347a02e58986757324f4dcb3ab3347/_nuxt/2615654.js:12:2527
+
+1700918453435	Marionette	INFO	Stopped listening on port 43203
+JavaScript error: chrome://remote/content/marionette/cert.sys.mjs, line 51: NS_ERROR_NOT_AVAILABLE: Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsICertOverrideService.setDisableAllSecurityChecksAndLetAttackersInterceptMyData]

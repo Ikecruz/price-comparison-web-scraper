@@ -33,44 +33,51 @@ public class JohnLewisScraper extends Scraper {
         }
 
         for (String phoneUrl: phoneUrls) {
-            driver.navigate().to(phoneUrl);
-            wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//h1[@class='ProductHeader_ProductHeader__title__t2mwc']")
-            ));
 
-            String imageURL = (driver.findElementByXPath(
-                "//div[@class='ProductImage_ProductImage__TX23k zoom']//child::img"
-            )).getAttribute("src");
+            try {
 
-            String name = (driver.findElementByXPath(
-                "//span[contains(text(), 'Model name')]//ancestor::dt//following-sibling::dd[1]"
-            )).getAttribute("innerText");
+                driver.navigate().to(phoneUrl);
+                wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//h1[@class='ProductHeader_ProductHeader__title__t2mwc']")
+                ));
 
-            String storage = (driver.findElementByXPath(
-                "//span[contains(text(), 'Hard drive')]//ancestor::dt//following-sibling::dd[1]"
-            )).getAttribute("innerText");
+                String imageURL = (driver.findElementByXPath(
+                    "//div[@class='ProductImage_ProductImage__TX23k zoom']//child::img"
+                )).getAttribute("src");
 
-            String cellullar = (driver.findElementByXPath(
-                "//span[contains(text(), 'Cellular generation')]//ancestor::dt//following-sibling::dd[1]"
-            )).getAttribute("innerText");
+                String name = (driver.findElementByXPath(
+                    "//span[contains(text(), 'Model name')]//ancestor::dt//following-sibling::dd[1]"
+                )).getAttribute("innerText");
 
-            String price = (driver.findElementByXPath(
-                "//span[@class='ProductPrice_ProductPrice__item__f6Pv6']"
-            )).getAttribute("innerText");
+                String storage = (driver.findElementByXPath(
+                    "//span[contains(text(), 'Hard drive')]//ancestor::dt//following-sibling::dd[1]"
+                )).getAttribute("innerText");
 
-            PhoneEntity phone = this.getOrCreatePhoneIfNotExist(name, storage, cellullar, imageURL);
+                String cellullar = (driver.findElementByXPath(
+                    "//span[contains(text(), 'Cellular generation')]//ancestor::dt//following-sibling::dd[1]"
+                )).getAttribute("innerText");
 
-            ComparisonEntity comparison = new ComparisonEntity();
-            comparison.setPhoneEntity(phone);
-            comparison.setName("John Lewis");
-            comparison.setPrice(
-                Float.parseFloat(price.substring(1).replaceAll("[^0-9.]+", ""))
-            );
-            comparison.setUrl(phoneUrl);
+                String price = (driver.findElementByXPath(
+                    "//span[@class='ProductPrice_ProductPrice__item__f6Pv6']"
+                )).getAttribute("innerText");
 
-            this.createAndSaveComparisonIfNotExist(comparison);
+                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(name, storage, cellullar, imageURL);
 
-            Thread.sleep(5000);
+                ComparisonEntity comparison = new ComparisonEntity();
+                comparison.setPhoneEntity(phone);
+                comparison.setName("John Lewis");
+                comparison.setPrice(
+                    Float.parseFloat(price.substring(1).replaceAll("[^0-9.]+", ""))
+                );
+                comparison.setUrl(phoneUrl);
+
+                this.createAndSaveComparisonIfNotExist(comparison);
+
+                Thread.sleep(5000);
+                
+            } catch (Exception e) {
+                continue;
+            }
 
         }
 

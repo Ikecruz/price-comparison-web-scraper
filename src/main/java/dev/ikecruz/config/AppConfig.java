@@ -13,6 +13,7 @@ import org.tinylog.Logger;
 
 import dev.ikecruz.scraper.AmazonScraper;
 import dev.ikecruz.scraper.ArgosScraper;
+import dev.ikecruz.scraper.BackmarketScraper;
 import dev.ikecruz.scraper.JohnLewisScraper;
 import dev.ikecruz.scraper.Scraper;
 import dev.ikecruz.thread.ThreadStarter;
@@ -28,7 +29,8 @@ public class AppConfig {
         List<Scraper> scrapers = new ArrayList<Scraper>();
         // scrapers.add(johnLewisScraper());
         // scrapers.add(amazonScraper());
-        scrapers.add(argosScraper());
+        // scrapers.add(argosScraper());
+        scrapers.add(backmarketScraper());
         tmpThread.setScrapers(scrapers);
         return tmpThread;
     }
@@ -52,6 +54,13 @@ public class AppConfig {
         ArgosScraper tmpArgosScraper = new ArgosScraper();
         tmpArgosScraper.setSessionFactory(getSessionFactory());
         return tmpArgosScraper;
+    }
+
+    @Bean
+    public BackmarketScraper backmarketScraper() {
+        BackmarketScraper tmpBackmarketScraper = new BackmarketScraper();
+        tmpBackmarketScraper.setSessionFactory(getSessionFactory());
+        return tmpBackmarketScraper;
     }
 
     @Bean

@@ -15,13 +15,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import dev.ikecruz.entities.ComparisonEntity;
 import dev.ikecruz.entities.PhoneEntity;
 
-public class ArgosScraper extends Scraper {
+public class BackmarketScraper extends Scraper{
 
-    private static final String URL = "https://www.argos.co.uk/browse/technology/mobile-phones-and-accessories/sim-free-phones/c:30147/brands:samsung/?tag=ar:shop:samsung-mobiles:shop-all-header-br";
+    private static final String URL = "https://www.backmarket.co.uk/en-gb/l/samsung-smartphone/99760870-ed75-482f-a626-2b4f964c55ae";
 
     @Override
     public void scrape() throws InterruptedException, IOException {
-
+        
         FirefoxDriver driver = this.getFireFoxDriver();
         WebDriverWait wait = new WebDriverWait(driver, 2);
         WebDriverWait waitLong = new WebDriverWait(driver, 10);
@@ -31,11 +31,11 @@ public class ArgosScraper extends Scraper {
         boolean moreData = true;
 
         WebElement acceptCookiesButton = waitLong.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//button[@id='consent_prompt_submit']")
+            By.xpath("//button[@data-qa='accept-cta']")
         ));
 
         acceptCookiesButton.click();
-
+        
         List<String> phoneUrls = new ArrayList<>();
 
         while (moreData) {
@@ -43,10 +43,10 @@ public class ArgosScraper extends Scraper {
             try {
 
                 WebElement nextButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//a[contains(@data-test, 'component-pagination-arrow-right')]")
+                    By.xpath("//a[contains(@aria-current, 'true')]//following-sibling::a[1]")
                 ));
 
-                List<WebElement> phonesElements = driver.findElementsByXPath(" //a[contains(@id, 'product-title')]");
+                List<WebElement> phonesElements = driver.findElementsByXPath("//div[@class='productCard']//a");
 
                 for (WebElement phoneElement: phonesElements) {
                     phoneUrls.add(phoneElement.getAttribute("href"));
@@ -61,74 +61,56 @@ public class ArgosScraper extends Scraper {
         }
 
         for (String phoneUrl: phoneUrls) {
-            
+
             try {
                 driver.navigate().to(phoneUrl);
 
                 String imageUrl = (wait.until(ExpectedConditions.presenceOfElementLocated(
-                    By.xpath("//div[contains(@data-test, 'component-media-gallery_activeSlide-0')]//descendant::img")
-                ))).getAttribute("src");
+                    By.xpath("//div[@data-test='carousel']//descendant::li[1]/img")
+                )).getAttribute("src"));
+
+                WebElement buttonToOpenSpecifications = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//span[contains(text(), 'Technical Specifications')]//ancestor::button")
+                ));
+
+                buttonToOpenSpecifications.click();
 
                 String cellular = (driver.findElementByXPath(
-                    "//div//child::ul//child::li[contains(text(), 'network capability')]"
+                    "//p[contains(text(),  'Network')]//parent::span//parent::div//following-sibling::div/span/span"
                 ).getAttribute("innerText"));
-
-                cellular = (cellular.split(" ")[0]);
 
                 String storage = (driver.findElementByXPath(
-                    "//div//child::ul//child::li[contains(text(), 'Internal memory')]"
+                    "//li[contains(@data-qa, 'storage')]/a[contains(@class, 'primary-active')]//descendant::span"
                 ).getAttribute("innerText"));
-
-                storage = (storage.split(" ")[2]).replaceFirst(".$","");
 
                 String price = (driver.findElementByXPath(
-                    "//li[contains(@data-test, 'product-price-primary')]"
-                ).getAttribute("content"));
-
-                // GETTING REAL NAME
-
-                String nameFromMainSite = (driver.findElementByXPath(
-                    "//p[contains(text(), 'Model number:')]"
+                    "//div[contains(@data-test, 'normal-price')]"
                 ).getAttribute("innerText"));
                 
-                nameFromMainSite = (nameFromMainSite.split(" ")[2]).replaceFirst(".$","");
+                String name = (driver.findElementByXPath(
+                    "//p[contains(text(),  'Model')]//parent::span//parent::div//following-sibling::div/span/span"
+                ).getAttribute("innerText"));
 
-                driver.navigate().to("https://www.gsmarena.com/res.php3?sSearch="+nameFromMainSite);
-
-                WebElement phoneElementToGetRightNameFrom = driver.findElementByXPath(
-                    "//div[@class='makers']//descendant::a[1]"
-                );
-
-                phoneElementToGetRightNameFrom.click();
-
-                String phoneCorrectName = (wait.until(ExpectedConditions.presenceOfElementLocated(
-                    By.xpath("//h1[contains(@data-spec, 'modelname')]")
-                ))).getAttribute("innerText");
-
-                // END
-
-                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(phoneCorrectName, storage , cellular, imageUrl);
+                PhoneEntity phone = this.getOrCreatePhoneIfNotExist("Samsung "+name, storage, cellular, imageUrl);
 
                 ComparisonEntity comparison = new ComparisonEntity();
                 comparison.setPhoneEntity(phone);
-                comparison.setName("John Lewis");
+                comparison.setName("Back Market");
                 comparison.setPrice(
-                    Float.parseFloat(price)
+                    Float.parseFloat(price.replaceAll("[^0-9.]+", ""))
                 );
                 comparison.setUrl(phoneUrl);
 
                 this.createAndSaveComparisonIfNotExist(comparison);
 
                 Thread.sleep(5000);
-                
+
             } catch (Exception e) {
                 continue;
             }
-            
+
         }
 
-        driver.close();
-
     }
-
+    
 }

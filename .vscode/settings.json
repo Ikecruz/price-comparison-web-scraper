@@ -2,5 +2,7 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "docwriter.progress.trackClasses": true,
     "docwriter.progress.trackMethods": true,
-    "docwriter.style": "Auto-detect"
+    "docwriter.style": "Auto-detect",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "editor.fontFamily": "ui-monospace,SFMono-Regular,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",monospace"
 }

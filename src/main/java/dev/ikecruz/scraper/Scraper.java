@@ -38,7 +38,7 @@ public abstract class Scraper {
         options.setHeadless(false);
         System.setProperty("webdriver.gecko.driver", "/usr/local/bin/geckodriver");
         System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "null");
-
+        
         return new FirefoxDriver(options);
     }
 
