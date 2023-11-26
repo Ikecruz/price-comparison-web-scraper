@@ -22,10 +22,11 @@ public class AmazonScraper extends Scraper {
     public void scrape() throws InterruptedException, IOException {
         
         FirefoxDriver driver = this.getFireFoxDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 30);
+        WebDriverWait wait = new WebDriverWait(driver, 2);
+        WebDriverWait waitLong = new WebDriverWait(driver, 10);
         
         driver.get(URL);
-        wait.until(ExpectedConditions.presenceOfElementLocated(
+        waitLong.until(ExpectedConditions.presenceOfElementLocated(
             By.xpath("//a[contains(@class, 'ProductGridItem__overlay__IQ3Kw')]")
         ));
 
@@ -40,16 +41,13 @@ public class AmazonScraper extends Scraper {
             try {
                 
                 driver.navigate().to(phoneUrl); 
-                wait.until(ExpectedConditions.presenceOfElementLocated(
-                    By.xpath("//span[@id='productTitle']")
-                ));
 
-                String imageUrl = (driver.findElementByXPath(
-                    "//img[@id='landingImage']"
-                ).getAttribute("src"));
+                String imageUrl = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//img[@id='landingImage']")
+                )).getAttribute("src");
 
                 String storage = (driver.findElementByXPath(
-                    "//div[@id='variation_size_name']//descendant::span[@class='selection']"
+                    "//tr[contains(@class, 'po-memory_storage_capacity')]//descendant::span[2]"
                 )).getAttribute("innerText");
 
                 String cellular;
@@ -66,25 +64,32 @@ public class AmazonScraper extends Scraper {
                     "//span[contains(@class, 'a-price-whole')]"
                 )).getAttribute("innerText");
 
-                String nameFromMainSite = (driver.findElementByXPath(
+                String name = (driver.findElementByXPath(
                     "//tr[contains(@class, 'po-model_name')]//descendant::span[2]"
                 ).getAttribute("innerText"));
                 
-                nameFromMainSite = (nameFromMainSite.split(" ")[2]).replaceFirst(".$","");
+                if (!name.split(" ")[0].equalsIgnoreCase("galaxy") && !name.split(" ")[0].equalsIgnoreCase("samsung")) {
 
-                driver.navigate().to("https://www.gsmarena.com/res.php3?sSearch="+nameFromMainSite);
+                    driver.navigate().to("https://www.samsung.com/uk/search/?searchvalue="+name);
 
-                WebElement phoneElementToGetRightNameFrom = driver.findElementByXPath(
-                    "//div[@class='makers']//descendant::a[1]"
-                );
+                    WebElement acceptSamsungCookiesButton = waitLong.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//button[@id='truste-consent-button']")
+                    ));
 
-                phoneElementToGetRightNameFrom.click();
+                    acceptSamsungCookiesButton.click();
 
-                String phoneCorrectName = (wait.until(ExpectedConditions.presenceOfElementLocated(
-                    By.xpath("//h1[contains(@data-spec, 'modelname')]")
-                ))).getAttribute("innerText");
+                    WebElement productTab = wait.until(ExpectedConditions.presenceOfElementLocated(
+                        By.xpath("//a[contains(@an-la, 'tab:products')]")
+                    ));
+                    
+                    productTab.click();
 
-                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(phoneCorrectName, storage, cellular, imageUrl);
+                    name = (wait.until(ExpectedConditions.presenceOfElementLocated(
+                        By.xpath("//a[@class='result-title__link' and contains(@data-href-target, 'galaxy')]")
+                    ))).getAttribute("innerText");
+                }
+
+                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(name, storage, cellular, imageUrl);
 
                 ComparisonEntity comparisonEntity = new ComparisonEntity();
                 comparisonEntity.setPhoneEntity(phone);
@@ -96,11 +101,10 @@ public class AmazonScraper extends Scraper {
 
                 this.createAndSaveComparisonIfNotExist(comparisonEntity);
 
-                System.out.println("DOne saving");
-
                 Thread.sleep(5000);
                 
             } catch (Exception e) {
+                System.out.println(e.getMessage());
                 continue;
             }
 

@@ -16,7 +16,5 @@ public class Main {
         ThreadStarter mainThread = (ThreadStarter) context.getBean("thread");
         mainThread.scrapeAll();
 
-        // ((AbstractApplicationContext) context).close();
-
     }
 }

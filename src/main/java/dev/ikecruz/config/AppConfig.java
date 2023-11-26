@@ -11,11 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.tinylog.Logger;
 
-import dev.ikecruz.scraper.AmazonScraper;
-import dev.ikecruz.scraper.ArgosScraper;
-import dev.ikecruz.scraper.BackmarketScraper;
-import dev.ikecruz.scraper.JohnLewisScraper;
-import dev.ikecruz.scraper.Scraper;
+import dev.ikecruz.scraper.*;
 import dev.ikecruz.thread.ThreadStarter;
 
 @Configuration
@@ -30,7 +26,8 @@ public class AppConfig {
         // scrapers.add(johnLewisScraper());
         // scrapers.add(amazonScraper());
         // scrapers.add(argosScraper());
-        scrapers.add(backmarketScraper());
+        // scrapers.add(backmarketScraper());
+        scrapers.add(curryScraper());
         tmpThread.setScrapers(scrapers);
         return tmpThread;
     }
@@ -61,6 +58,12 @@ public class AppConfig {
         BackmarketScraper tmpBackmarketScraper = new BackmarketScraper();
         tmpBackmarketScraper.setSessionFactory(getSessionFactory());
         return tmpBackmarketScraper;
+    }
+
+    public CurryScraper curryScraper() {
+        CurryScraper tmpCurryScraper = new CurryScraper();
+        tmpCurryScraper.setSessionFactory(getSessionFactory());
+        return tmpCurryScraper;
     }
 
     @Bean

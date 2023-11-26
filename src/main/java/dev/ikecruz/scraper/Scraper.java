@@ -36,7 +36,9 @@ public abstract class Scraper {
     public FirefoxDriver getFireFoxDriver(){
         FirefoxOptions options = new FirefoxOptions();
         options.setHeadless(false);
+        options.setBinary("/usr/local/bin/firefox");
         System.setProperty("webdriver.gecko.driver", "/usr/local/bin/geckodriver");
+//        System.setProperty("webdriver.firefox.bin", "/usr/local/bin/firefox");
         System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "null");
         
         return new FirefoxDriver(options);

@@ -86,28 +86,32 @@ public class ArgosScraper extends Scraper {
                 ).getAttribute("content"));
 
                 // GETTING REAL NAME
-
-                String nameFromMainSite = (driver.findElementByXPath(
+                String name = (driver.findElementByXPath(
                     "//p[contains(text(), 'Model number:')]"
                 ).getAttribute("innerText"));
                 
-                nameFromMainSite = (nameFromMainSite.split(" ")[2]).replaceFirst(".$","");
+                name = (name.split(" ")[2]).replaceFirst(".$","");
 
-                driver.navigate().to("https://www.gsmarena.com/res.php3?sSearch="+nameFromMainSite);
+                driver.navigate().to("https://www.samsung.com/uk/search/?searchvalue="+name);
 
-                WebElement phoneElementToGetRightNameFrom = driver.findElementByXPath(
-                    "//div[@class='makers']//descendant::a[1]"
+                WebElement acceptSamsungCookiesButton = waitLong.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='truste-consent-button']")
+                ));
+
+                acceptSamsungCookiesButton.click();
+
+                WebElement productTab = driver.findElementByXPath(
+                    "//a[contains(@an-la, 'tab:products')]"
                 );
 
-                phoneElementToGetRightNameFrom.click();
+                productTab.click();
 
-                String phoneCorrectName = (wait.until(ExpectedConditions.presenceOfElementLocated(
-                    By.xpath("//h1[contains(@data-spec, 'modelname')]")
+                name = (wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//a[@class='result-title__link' and contains(@data-href-target, 'galaxy')]")
                 ))).getAttribute("innerText");
-
                 // END
 
-                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(phoneCorrectName, storage , cellular, imageUrl);
+                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(name, storage , cellular, imageUrl);
 
                 ComparisonEntity comparison = new ComparisonEntity();
                 comparison.setPhoneEntity(phone);
