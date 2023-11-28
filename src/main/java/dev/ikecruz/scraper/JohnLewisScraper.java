@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import dev.ikecruz.entities.ComparisonEntity;
+import dev.ikecruz.entities.ModelEntity;
 import dev.ikecruz.entities.PhoneEntity;
 
 public class JohnLewisScraper extends Scraper {
@@ -41,7 +42,7 @@ public class JohnLewisScraper extends Scraper {
                     By.xpath("//h1[@class='ProductHeader_ProductHeader__title__t2mwc']")
                 ));
 
-                String imageURL = (driver.findElementByXPath(
+                String imageUrl = (driver.findElementByXPath(
                     "//div[@class='ProductImage_ProductImage__TX23k zoom']//child::img"
                 )).getAttribute("src");
 
@@ -53,7 +54,7 @@ public class JohnLewisScraper extends Scraper {
                     "//span[contains(text(), 'Hard drive')]//ancestor::dt//following-sibling::dd[1]"
                 )).getAttribute("innerText");
 
-                String cellullar = (driver.findElementByXPath(
+                String cellular = (driver.findElementByXPath(
                     "//span[contains(text(), 'Cellular generation')]//ancestor::dt//following-sibling::dd[1]"
                 )).getAttribute("innerText");
 
@@ -61,7 +62,8 @@ public class JohnLewisScraper extends Scraper {
                     "//span[@class='ProductPrice_ProductPrice__item__f6Pv6']"
                 )).getAttribute("innerText");
 
-                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(name, storage, cellullar, imageURL);
+                ModelEntity model = this.getOrCreateModelIfNotExist(name);
+                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(model, storage , cellular, imageUrl);
 
                 ComparisonEntity comparison = new ComparisonEntity();
                 comparison.setPhoneEntity(phone);

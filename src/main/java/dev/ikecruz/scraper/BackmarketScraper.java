@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import dev.ikecruz.entities.ComparisonEntity;
+import dev.ikecruz.entities.ModelEntity;
 import dev.ikecruz.entities.PhoneEntity;
 
 public class BackmarketScraper extends Scraper{
@@ -80,7 +81,7 @@ public class BackmarketScraper extends Scraper{
                 ).getAttribute("innerText"));
 
                 String storage = (driver.findElementByXPath(
-                    "//li[contains(@data-qa, 'storage')]/a[contains(@class, 'primary-active')]//descendant::span"
+                    "//p[contains(text(),  'Storage')]//parent::span//parent::div//following-sibling::div/span/span"
                 ).getAttribute("innerText"));
 
                 String price = (driver.findElementByXPath(
@@ -91,7 +92,8 @@ public class BackmarketScraper extends Scraper{
                     "//p[contains(text(),  'Model')]//parent::span//parent::div//following-sibling::div/span/span"
                 ).getAttribute("innerText"));
 
-                PhoneEntity phone = this.getOrCreatePhoneIfNotExist("Samsung "+name, storage, cellular, imageUrl);
+                ModelEntity model = this.getOrCreateModelIfNotExist("Samsung " + name);
+                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(model, storage , cellular, imageUrl);
 
                 ComparisonEntity comparison = new ComparisonEntity();
                 comparison.setPhoneEntity(phone);

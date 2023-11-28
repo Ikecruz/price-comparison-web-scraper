@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import dev.ikecruz.entities.ComparisonEntity;
+import dev.ikecruz.entities.ModelEntity;
 import dev.ikecruz.entities.PhoneEntity;
 
 public class AmazonScraper extends Scraper {
@@ -87,9 +88,12 @@ public class AmazonScraper extends Scraper {
                     name = (wait.until(ExpectedConditions.presenceOfElementLocated(
                         By.xpath("//a[@class='result-title__link' and contains(@data-href-target, 'galaxy')]")
                     ))).getAttribute("innerText");
+
+                    name = "Samsung " + name;
                 }
 
-                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(name, storage, cellular, imageUrl);
+                ModelEntity model = this.getOrCreateModelIfNotExist(name);
+                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(model, storage , cellular, imageUrl);
 
                 ComparisonEntity comparisonEntity = new ComparisonEntity();
                 comparisonEntity.setPhoneEntity(phone);

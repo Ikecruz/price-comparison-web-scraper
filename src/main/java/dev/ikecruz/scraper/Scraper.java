@@ -38,7 +38,6 @@ public abstract class Scraper {
         options.setHeadless(false);
         options.setBinary("/usr/local/bin/firefox");
         System.setProperty("webdriver.gecko.driver", "/usr/local/bin/geckodriver");
-//        System.setProperty("webdriver.firefox.bin", "/usr/local/bin/firefox");
         System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "null");
         
         return new FirefoxDriver(options);
@@ -73,7 +72,7 @@ public abstract class Scraper {
     }
 
     public PhoneEntity getOrCreatePhoneIfNotExist (
-        String name,
+        ModelEntity model,
         String storage,
         String cellular,
         String imageUrl
@@ -83,17 +82,14 @@ public abstract class Scraper {
 
         @SuppressWarnings("unchecked")
         List<PhoneEntity> phones = session.createQuery(
-            "from PhoneEntity where name='" + name + "' and storage='" + storage + "' and cellular='" + cellular + "'"
+            "from PhoneEntity where model_id='" + model.getId() + "' and storage='" + String.join("", storage.split(" ")) + "' and cellular='" + cellular + "'"
         ).getResultList();
 
         if (phones.size() == 0) {
-            ModelEntity model = this.getOrCreateModelIfNotExist(name, session);
-
             PhoneEntity phone = new PhoneEntity();
             phone.setModelEntity(model);
             phone.setImageUrl(imageUrl);
-            phone.setName(name);
-            phone.setStorage(storage);
+            phone.setStorage(String.join("", storage.split(" ")));
             phone.setCellular(cellular);
 
             int id = (Integer) session.save(phone);
@@ -111,7 +107,10 @@ public abstract class Scraper {
         return phones.get(0);
     }
 
-    private ModelEntity getOrCreateModelIfNotExist (String modelName, Session session) {
+    public ModelEntity getOrCreateModelIfNotExist (String modelName) {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
         @SuppressWarnings("unchecked")
         List<ModelEntity> models = session.createQuery("from ModelEntity where name= '" + modelName + "'").getResultList();
 
@@ -123,8 +122,12 @@ public abstract class Scraper {
             int id = (Integer) session.save(model);
             model.setId(id);
 
+            session.getTransaction().commit();
+            session.close();
+
             return model;
         }
+        session.close();
 
         return models.get(0);
     }

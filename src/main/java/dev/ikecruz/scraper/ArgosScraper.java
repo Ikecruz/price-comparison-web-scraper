@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import dev.ikecruz.entities.ComparisonEntity;
+import dev.ikecruz.entities.ModelEntity;
 import dev.ikecruz.entities.PhoneEntity;
 
 public class ArgosScraper extends Scraper {
@@ -109,9 +110,12 @@ public class ArgosScraper extends Scraper {
                 name = (wait.until(ExpectedConditions.presenceOfElementLocated(
                     By.xpath("//a[@class='result-title__link' and contains(@data-href-target, 'galaxy')]")
                 ))).getAttribute("innerText");
+
+                name = "Samsung " + name;
                 // END
 
-                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(name, storage , cellular, imageUrl);
+                ModelEntity model = this.getOrCreateModelIfNotExist(name);
+                PhoneEntity phone = this.getOrCreatePhoneIfNotExist(model, storage , cellular, imageUrl);
 
                 ComparisonEntity comparison = new ComparisonEntity();
                 comparison.setPhoneEntity(phone);

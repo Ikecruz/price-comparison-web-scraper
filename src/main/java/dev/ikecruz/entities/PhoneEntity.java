@@ -21,9 +21,6 @@ public class PhoneEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "model_id")
     private ModelEntity modelEntity;
-
-    @Column(name = "name")
-    private String name;
     
     @Column(name = "image_url")
     private String imageUrl;
@@ -50,14 +47,6 @@ public class PhoneEntity {
 
     public void setModelEntity(ModelEntity modelEntity) {
         this.modelEntity = modelEntity;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getImageUrl() {

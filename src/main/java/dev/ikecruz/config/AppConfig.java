@@ -26,8 +26,8 @@ public class AppConfig {
         // scrapers.add(johnLewisScraper());
         // scrapers.add(amazonScraper());
         // scrapers.add(argosScraper());
-        // scrapers.add(backmarketScraper());
-        scrapers.add(curryScraper());
+        scrapers.add(backmarketScraper());
+        // scrapers.add(curryScraper());
         tmpThread.setScrapers(scrapers);
         return tmpThread;
     }
